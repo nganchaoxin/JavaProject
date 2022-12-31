@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean id = "account1" class = "day_1.Account">
+
+    </bean>
+    <bean id = "account2" class = "day_1.Account">
+        <property name="id" value="1"/>
+        <property name="ownerName" value="Aric"/>
+        <property name="balance" value="100.000"/>
+    </bean>
+</beans>
