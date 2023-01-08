@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +14,12 @@ public class OrdersEntity {
     @Column(name = "id")
     private int id;
     @Column(name = "order_date")
-    private String orderDate;
+    private LocalDate orderDate;
     @Column(name = "customer_name")
     private String customerName;
     @Column(name = "customer_address")
     private String customerAddress;
-    @OneToMany(mappedBy = "orderId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "orderId", fetch = FetchType.EAGER)
     private List<OrderDetailsEntity> orderDetailsEntity;
 
     public OrdersEntity() {
@@ -41,11 +42,11 @@ public class OrdersEntity {
         this.id = id;
     }
 
-    public String getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -67,12 +68,12 @@ public class OrdersEntity {
 
     @Override
     public String toString() {
+
         return "OrdersEntity{" +
                 "id=" + id +
                 ", orderDate='" + orderDate + '\'' +
                 ", customerName='" + customerName + '\'' +
                 ", customerAddress='" + customerAddress + '\'' +
-                ", orderDetailsEntity=" +  orderDetailsEntity +
                 '}';
     }
 }

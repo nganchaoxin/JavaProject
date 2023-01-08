@@ -68,6 +68,7 @@ public class OrderDetailsEntity {
     public String toString() {
         return "OrderDetailsEntity{" +
                 "id=" + id +
+                ", orderId=" + orderId +
                 ", productName='" + productName + '\'' +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +

@@ -6,7 +6,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import repository.OrderDetailsRepository;
 import repository.OrdersRepository;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -18,64 +20,102 @@ public class Main {
     public static void main(String[] args) {
         boolean exit = false;
         do {
-            System.out.println("1. Create new order and order detail.");
-            //System.out.println("2. Create new orderDetail.");
-            System.out.println("3. List all order and order details in the database.");
-            System.out.println("4. Get an order and orderDetails by order id.");
-            System.out.println("5. List all the orders in the current month.");
-            System.out.println("6. List all orders which have total amount more than 1,000USD.");
-            System.out.println("7. List all orders buy Java book.");
-            System.out.println("8. Out Of Program.");
+            System.out.println("1. Create order with order detail");
+            System.out.println("2. List all order and order details in the database.");
+            System.out.println("3. Get an order and orderDetails by order id.");
+            System.out.println("4. List all the orders in the current month.");
+            System.out.println("5. List all orders which have total amount more than 1,000USD.");
+            System.out.println("6. List all orders buy Java book.");
+            System.out.println("7. Out Of Program.");
             System.out.print("Enter your input: ");
             int input = scanner.nextInt();
             switch (input) {
                 case 1:
-                    orderByUser();
+                    createOrderWithOrderDetail();
                     break;
                 case 2:
                     listAllOrderAndOrderDetail();
                     break;
-                case 8:
+                case 3:
+                    getOrderAndOrderDetailsByOrderId();
+                    break;
+                case 4:
+                    getAllOrderInCurrentMonth();
+                    break;
+                case 5:
+                    getOrderFromTotal();
+                    break;
+                case 6:
+                    getOrderFromJavaBook();
+                    break;
+                case 7:
                     exit = true;
                     break;
             }
         } while (!exit);
 
     }
+
+    public static void getOrderFromJavaBook() {
+        System.out.println(ordersRepository.getOrderFromJavaBook());
+    }
+
+    public static void getOrderFromTotal() {
+        System.out.println(ordersRepository.getOrderFromTotal());
+    }
+
+    public static void getAllOrderInCurrentMonth() {
+        System.out.println("List All Order in current month");
+        System.out.println(ordersRepository.getOrderInCurrentMonth());
+
+    }
+
+    public static void getOrderAndOrderDetailsByOrderId() {
+        System.out.println("Enter order ID you want to find:");
+        System.out.println(orderDetailsRepository.findOrderById(scanner.nextInt()));
+    }
+
     public static void listAllOrderAndOrderDetail() {
         System.out.println("List All Order and Order Detail");
         List<OrdersEntity> listOrder = (List<OrdersEntity>) ordersRepository.findAll();
 
-        for (OrdersEntity order: listOrder) {
+        for (OrdersEntity order : listOrder) {
             System.out.println(order.toString());
-
+            System.out.println("Order detail have order id: " + order.getId());
+            List<OrderDetailsEntity> listOrderDetail = orderDetailsRepository.findOrderById(order.getId());
+            for (OrderDetailsEntity orderDetail : listOrderDetail) {
+                System.out.println(orderDetail.toString());
+            }
         }
 
-        System.out.println(listOrder.toString());
-
     }
-    public static void orderByUser() {
-        System.out.println("Enter new order!");
 
-        // Create new orders
-        OrdersEntity ordersEntity = new OrdersEntity();
-        System.out.println("Enter Name:");
-        scanner.nextLine();
-        ordersEntity.setCustomerName(scanner.nextLine());
-        System.out.println("Enter Date:");
-        ordersEntity.setOrderDate(scanner.nextLine());
-        System.out.println("Enter Address:");
-        ordersEntity.setCustomerAddress(scanner.nextLine());
+    public static void createOrderWithOrderDetail() {
+        System.out.println("Create order with order detail");
+        OrdersEntity ordersEntity = enterNewOrder();
         ordersRepository.save(ordersEntity);
 
-        // OrderDetail
-        OrderDetailsEntity orderDetailsEntity = createOrderDetail();
+        OrderDetailsEntity orderDetailsEntity = enterNewOrderDetail();
         orderDetailsEntity.setOrderId(ordersEntity);
+        orderDetailsRepository.save(orderDetailsEntity);
 
-        //System.out.println(ordersEntity.toString());
     }
 
-    public static OrderDetailsEntity createOrderDetail() {
+    public static OrdersEntity enterNewOrder() {
+        OrdersEntity ordersEntity = new OrdersEntity();
+        System.out.println("Enter Customer Name:");
+        scanner.nextLine();
+        ordersEntity.setCustomerName(scanner.nextLine());
+        System.out.println("Enter Customer Address:");
+        ordersEntity.setCustomerAddress(scanner.nextLine());
+        ordersEntity.setOrderDate(LocalDate.now());
+
+        ordersRepository.save(ordersEntity);
+
+        return ordersEntity;
+    }
+
+    public static OrderDetailsEntity enterNewOrderDetail() {
         OrderDetailsEntity orderDetailsEntity = new OrderDetailsEntity();
 
         System.out.println("Enter Product Name:");
