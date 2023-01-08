@@ -81,7 +81,7 @@ public class Main {
 
         for (OrdersEntity order : listOrder) {
             System.out.println(order.toString());
-            System.out.println("Order detail have order id: " + order.getId());
+            System.out.println("Order Detail ID: " + order.getId());
             List<OrderDetailsEntity> listOrderDetail = orderDetailsRepository.findOrderById(order.getId());
             for (OrderDetailsEntity orderDetail : listOrderDetail) {
                 System.out.println(orderDetail.toString());
