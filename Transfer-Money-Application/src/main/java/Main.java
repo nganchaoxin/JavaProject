@@ -10,10 +10,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //accountService.createNewAccount();
         //accountService.transferMoney(1,5,100);
-        //accountService.listAllProduct();
+        //accountService.listAllAccount();
         accountService.updateAccount();
         //accountService.deleteAccount();
     }
-
 
 }

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public interface AccountRepository extends CrudRepository<AccountEntity,Integer> {
+public interface AccountRepository extends CrudRepository<AccountEntity, Integer> {
     @Modifying
     @Query(value = "update account set looked = true where access_time < now();", nativeQuery = true)
     void updateAccount();

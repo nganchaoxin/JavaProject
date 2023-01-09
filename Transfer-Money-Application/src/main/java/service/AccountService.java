@@ -70,7 +70,7 @@ public class AccountService {
 
     }
 
-    public void listAllProduct() {
+    public void listAllAccount() {
         List<AccountEntity> accountEntity = (List<AccountEntity>) accountRepository.findAll();
         System.out.println(accountEntity.toString());
     }
