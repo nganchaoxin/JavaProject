@@ -10,7 +10,7 @@ public class User {
     private String password;
     private String detail;
 
-    @DateTimeFormat(pattern="yyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
     private Gender gender = Gender.Male;
     private String country;

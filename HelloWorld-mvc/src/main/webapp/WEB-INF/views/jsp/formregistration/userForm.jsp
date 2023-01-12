@@ -43,13 +43,13 @@
                         <tr>
                             <td>Birth Date</td>
                             <td>
-                                <mvc:input path="birthDate" />
+                                <mvc:input path="birthDate" type="Date"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Gender</td>
                             <td>
-                                <mvc:radiobutton path="gender" items="${genders}" />
+                                <mvc:radiobuttons path="gender" items="${genders}" />
                             </td>
                         </tr>
                         <tr>
