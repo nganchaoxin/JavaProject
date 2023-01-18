@@ -10,7 +10,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>">
-<title>hello</title>
+<title>Book Management</title>
 </head>
 
 <body>
@@ -18,13 +18,15 @@
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light text-center">
-  <a class="navbar-brand" href="#">Book Management</a>
+  <a class="navbar-brand" href="book">Book Management</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+    <a href="newBook" ><button type="button" class="btn btn-primary btn-sm">Add Book</button></a>
+
       <li class="nav-item active">
         <a class="nav-link" href="#">Home</span></a>
       </li>
@@ -68,10 +70,10 @@
               <td>${book.author}</td>
               <td>${book.bookDetails.isbn}</td>
               <td>${book.bookDetails.price}</td>
-              <td>${book.bookDetails.publicDate}</td>
+              <td>${book.bookDetails.publishDate}</td>
               <td>${book.category.name}</td>
-              <td><button type="button" class="btn btn-primary btn-sm">Edit</button></td>
-              <td><button type="button" class="btn btn-secondary btn-sm">Delete</button></td>
+              <td><button onclick="location.href='edit/${book.id}'" type="button" class="btn btn-primary btn-sm">Edit</button></td>
+              <td><button onclick="location.href='delete/${book.id}'" type="button" class="btn btn-secondary btn-sm">Delete</button></td>
         </tr>
 
     </c:forEach>

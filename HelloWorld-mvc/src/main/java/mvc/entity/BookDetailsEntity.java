@@ -1,7 +1,10 @@
 package mvc.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "bookdetails")
@@ -16,11 +19,17 @@ public class BookDetailsEntity {
     private int price;
     @Column(name = "numberOfPage")
     private int numberOfPage;
-    @Column(name = "publicDate")
-    private LocalDate publicDate;
+    @Column(name = "publishDate")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate publishDate;
 
     @OneToOne(mappedBy = "bookDetails")
     private BookEntity book;
+
+    public String getPublishDateFormat() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return formatter.format(publishDate);
+    }
 
     public BookDetailsEntity() {
 
@@ -58,12 +67,12 @@ public class BookDetailsEntity {
         this.numberOfPage = numberOfPage;
     }
 
-    public LocalDate getPublicDate() {
-        return publicDate;
+    public LocalDate getpublishDate() {
+        return publishDate;
     }
 
-    public void setPublicDate(LocalDate publicDate) {
-        this.publicDate = publicDate;
+    public void setpublishDate(LocalDate publishDate) {
+        this.publishDate = publishDate;
     }
 
     public BookEntity getBook() {
