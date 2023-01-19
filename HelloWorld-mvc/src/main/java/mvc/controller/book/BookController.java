@@ -5,11 +5,15 @@ import mvc.entity.CategoryEntity;
 import mvc.repository.book.BookRepository;
 import mvc.repository.book.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +52,7 @@ public class BookController {
 
         model.addAttribute("bookList", resultList);
 
-        return "/book/bookManagement";
+        return "book/bookManagement";
     }
 
     @RequestMapping(value = "/newBook", method = RequestMethod.GET)
@@ -58,13 +62,40 @@ public class BookController {
         model.addAttribute("action", "newBook");
 
         setCategoryDropDownList(model);
-        return "/book/newBook";
+        return "book/newBook";
     }
 
     @RequestMapping(value = "/newBook", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     public String saveBook(BookEntity book) {
         bookRepository.save(book);
 
+        return "redirect:/book";
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String showEditBook(Model model, @PathVariable int id) {
+        model.addAttribute("book", bookRepository.findById(id));
+        model.addAttribute("msg", "Update book information");
+        // if the type === update show the id book
+        model.addAttribute("type", "update");
+        // at the action do "updateBook" with "/updateBook" direction
+        // ??? this attributeValue "updateBook" doesn't relative with the url path
+        model.addAttribute("action", "updateBook");
+
+        setCategoryDropDownList(model);
+        return "book/newBook";
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String updateBook(@ModelAttribute BookEntity book) {
+        bookRepository.save(book);
+
+        return "redirect:/book";
+    }
+
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    public String updateBook(@PathVariable int id){
+        bookRepository.deleteById(id);
         return "redirect:/book";
     }
 
@@ -80,24 +111,10 @@ public class BookController {
         }
     }
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String showEditBook(Model model, @PathVariable int id) {
-        model.addAttribute("book", bookRepository.findById(id));
-        model.addAttribute("msg", "Update book information");
-        // if the type === update show the id book
-        model.addAttribute("type", "update");
-        // at the action do "updateBook" with "/updateBook" direction
-        model.addAttribute("action", "/updateBook");
-
-        setCategoryDropDownList(model);
-        return "/book/newBook";
-    }
-
-    @RequestMapping(value = "/updateBook", method = RequestMethod.POST)
-    public String updateBook(@ModelAttribute BookEntity book) {
-        bookRepository.save(book);
-        System.out.println(book.getName());
-
-        return "redirect:/book";
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 }

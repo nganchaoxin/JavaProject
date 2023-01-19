@@ -26,15 +26,12 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
     <a href="newBook" ><button type="button" class="btn btn-primary btn-sm">Add Book</button></a>
-
       <li class="nav-item active">
         <a class="nav-link" href="#">Home</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Link</a>
       </li>
-
-
     </ul>
     <form:form action="search" method="get" class="form-inline my-2 my-lg-0" >
       <input name="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -42,8 +39,6 @@
     </form:form>
   </div>
 </nav>
-
-
 
 <div class="container">
 <table class="table">
@@ -63,7 +58,6 @@
   </thead>
   <tbody>
     <c:forEach var="book" items="${bookList}" varStatus="index">
-
         <tr>
               <th scope="row">${book.id}</th>
               <td>${book.name}</td>
@@ -72,16 +66,33 @@
               <td>${book.bookDetails.price}</td>
               <td>${book.bookDetails.publishDate}</td>
               <td>${book.category.name}</td>
-              <td><button onclick="location.href='edit/${book.id}'" type="button" class="btn btn-primary btn-sm">Edit</button></td>
-              <td><button onclick="location.href='delete/${book.id}'" type="button" class="btn btn-secondary btn-sm">Delete</button></td>
+              <td><button onclick="location.href='edit/${book.id}'" type="button" class="btn btn-secondary">Edit</button></td>
+              <td><button  type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button></td>
         </tr>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Please confirm</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete this book?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button onclick="location.href='delete/${book.id}'" type="button" class="btn btn-primary">Yes!</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
     </c:forEach>
-
 
   </tbody>
   </c:if>
 </table>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </html>
