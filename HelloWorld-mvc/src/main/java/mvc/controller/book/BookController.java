@@ -95,10 +95,9 @@ public class BookController {
 
     @RequestMapping(value = "/updateBook", method = RequestMethod.POST)
     public String updateBook(@ModelAttribute BookEntity book) {
-        // ? what's @ModelAttribute
         bookRepository.save(book);
         System.out.println(book.getName());
 
-        return "/book/newBook";
+        return "redirect:/book";
     }
 }
