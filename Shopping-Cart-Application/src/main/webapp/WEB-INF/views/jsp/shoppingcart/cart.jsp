@@ -57,10 +57,10 @@
   <tbody>
     <c:forEach var="product" items="${productInCart}" varStatus="index">
         <tr>
-              <th scope="row">${product.id}</th>
-              <td>${product.name}</td>
-              <td>${product.productDescription}</td>
-              <td>${product.price}</td>
+              <th scope="row">${cart.product.id}</th>
+              <td>${cart.product.name}</td>
+              <td>${cart.product.productDescription}</td>
+              <td>${cart.product.price}</td>
               <td><button onclick="location.href=''" type="button" class="btn btn-secondary">Add to cart</button></td>
               <td><button onclick="location.href=''" type="button" class="btn btn-secondary">Remove from cart</button></td>
         </tr>

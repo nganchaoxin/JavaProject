@@ -1,0 +1,13 @@
+mvc\repository\OrderDetailsRepository.class
+mvc\repository\ProductRepository.class
+mvc\configuration\SpringConfig.class
+mvc\controller\CartController.class
+mvc\controller\ProductController.class
+mvc\entity\CartEntity.class
+mvc\entity\ProductEntity.class
+mvc\entity\OrdersEntity.class
+mvc\entity\OrderDetailsEntity.class
+mvc\model\Model.class
+mvc\main\Main.class
+mvc\service\ExampleService.class
+mvc\repository\OrdersRepository.class
