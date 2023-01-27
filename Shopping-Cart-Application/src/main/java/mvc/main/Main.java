@@ -16,7 +16,7 @@ public class Main {
     static ProductRepository productRepository = context.getBean("productRepository", ProductRepository.class);
 
     public static void main(String[] args) {
-        //createNewProduct();
+        createNewProduct();
 
     }
     public static ProductEntity createNewProduct() {

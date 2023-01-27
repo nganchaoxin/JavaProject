@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="Products")
+@Table(name = "Products")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,12 +12,24 @@ public class ProductEntity {
     private int id;
     @Column(name = "name")
     private String name;
-    @Column(name="product_description")
+    @Column(name = "product_description")
     private String productDescription;
     @Column(name = "price")
     private Double price;
     @OneToMany(mappedBy = "product")
     private List<OrderDetailsEntity> orderDetails;
+
+    public ProductEntity(int id, String name, String productDescription, Double price, List<OrderDetailsEntity> orderDetails) {
+        this.id = id;
+        this.name = name;
+        this.productDescription = productDescription;
+        this.price = price;
+        this.orderDetails = orderDetails;
+    }
+
+    public ProductEntity() {
+
+    }
 
     public int getId() {
         return id;

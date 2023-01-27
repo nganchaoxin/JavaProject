@@ -79,7 +79,6 @@ public class BookController {
         // if the type === update show the id book
         model.addAttribute("type", "update");
         // at the action do "updateBook" with "/updateBook" direction
-        // ??? this attributeValue "updateBook" doesn't relative with the url path
         model.addAttribute("action", "updateBook");
 
         setCategoryDropDownList(model);
@@ -94,7 +93,7 @@ public class BookController {
     }
 
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
-    public String updateBook(@PathVariable int id){
+    public String deleteBook(@PathVariable int id){
         bookRepository.deleteById(id);
         return "redirect:/book";
     }

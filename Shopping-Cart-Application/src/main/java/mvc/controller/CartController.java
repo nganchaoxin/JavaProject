@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class CartController {
@@ -37,11 +36,7 @@ public class CartController {
     public String addToCart(Model model, @PathVariable int id, HttpServletRequest request) {
         List<CartEntity> cartList = (List<CartEntity>) request.getSession().getAttribute("cartList");
 
-        if (cartList == null) {
-            cartList = new ArrayList<>();
-            request.getSession().setAttribute("cartList", cartList);
-        }
-
+        // Find product by id and add to temp cart
         Optional<ProductEntity> optionalEntity = productRepository.findById(id);
 
         ProductEntity product = new ProductEntity();
@@ -52,8 +47,31 @@ public class CartController {
 
         CartEntity cartTemp = new CartEntity();
         cartTemp.setProduct(product);
-        cartList.add(cartTemp);
+        cartTemp.setQuantity(1);
 
+        // Init Cart and count quantity if it exists
+        if (cartList == null) {
+            cartList = new ArrayList<CartEntity>();
+            cartList.add(cartTemp);
+
+            request.getSession().setAttribute("cartList", cartList);
+        } else {
+            int index = this.exists(id, cartList);
+
+            // Not exist
+            if (index == -1) {
+                cartList.add(cartTemp);
+            }
+            // Exist
+            else {
+                int quantity = cartList.get(index).getQuantity() + 1;
+                cartList.get(index).setQuantity(quantity);
+            }
+
+            request.getSession().setAttribute("cartList", cartList);
+        }
+
+        model.addAttribute("cartList", cartList);
         return "redirect:/myCart";
     }
 
@@ -61,22 +79,32 @@ public class CartController {
     @RequestMapping(value = "/removeItem/{id}", method = RequestMethod.GET)
     public String removeItem(Model model, HttpServletRequest request, @PathVariable int id) {
         List<CartEntity> cartList = (List<CartEntity>) request.getSession().getAttribute("cartList");
+
         if (cartList == null) {
             cartList = new ArrayList<>();
             request.getSession().setAttribute("cartList", cartList);
         }
-
+        // Find id of item in list to remove
         CartEntity item = cartList.stream()
                 .filter(p -> id == (p.getProduct().getId()))
                 .findAny()
                 .orElse(null);
-        System.out.println(cartList.stream()
-                .filter(p -> id == (p.getProduct().getId())));
+
         cartList.remove(item);
 
-       request.getSession().setAttribute("cartList", cartList);
+        request.getSession().setAttribute("cartList", cartList);
         model.addAttribute("cartList", cartList);
 
         return "redirect:/myCart";
+    }
+
+    private int exists(int id, List<CartEntity> cart) {
+        for (int i = 0; i < cart.size(); i++) {
+            if (cart.get(i).getProduct().getId() == id) {
+                return i;
+            }
+        }
+        // Because i = 0
+        return -1;
     }
 }
