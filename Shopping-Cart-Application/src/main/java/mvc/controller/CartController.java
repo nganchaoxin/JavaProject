@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +19,29 @@ import java.util.Optional;
 @Controller
 public class CartController {
     @Autowired
-    private CartEntity cart;
-
-    @Autowired
     private ProductRepository productRepository;
 
+    @RequestMapping(value = "/myCart", method = RequestMethod.GET)
+    public String showCartList(Model model, HttpSession session) {
+        List<CartEntity> cartList = (List<CartEntity>) session.getAttribute("cartList");
+
+        if (cartList == null) {
+            cartList = new ArrayList<>();
+            model.addAttribute("cartList", cartList);
+        }
+
+        return "shoppingcart/cart";
+    }
+
     @RequestMapping(value = "/addToCart/{id}", method = RequestMethod.GET)
-    public String addToCart(Model model, @PathVariable int id) {
+    public String addToCart(Model model, @PathVariable int id, HttpServletRequest request) {
+        List<CartEntity> cartList = (List<CartEntity>) request.getSession().getAttribute("cartList");
+
+        if (cartList == null) {
+            cartList = new ArrayList<>();
+            request.getSession().setAttribute("cartList", cartList);
+        }
+
         Optional<ProductEntity> optionalEntity = productRepository.findById(id);
 
         ProductEntity product = new ProductEntity();
@@ -33,16 +50,33 @@ public class CartController {
         product.setPrice(optionalEntity.get().getPrice());
         product.setProductDescription(optionalEntity.get().getProductDescription());
 
-        // add into session
-        cart.setProduct(product);
-        System.out.println(cart.getProduct().toString());
-        List<CartEntity> cartList = new ArrayList<CartEntity>();
+        CartEntity cartTemp = new CartEntity();
+        cartTemp.setProduct(product);
+        cartList.add(cartTemp);
 
-        cartList.add(cart);
-
-        model.addAttribute("productInCart", cartList);
-
-        return "shoppingcart/cart";
+        return "redirect:/myCart";
     }
 
+
+    @RequestMapping(value = "/removeItem/{id}", method = RequestMethod.GET)
+    public String removeItem(Model model, HttpServletRequest request, @PathVariable int id) {
+        List<CartEntity> cartList = (List<CartEntity>) request.getSession().getAttribute("cartList");
+        if (cartList == null) {
+            cartList = new ArrayList<>();
+            request.getSession().setAttribute("cartList", cartList);
+        }
+
+        CartEntity item = cartList.stream()
+                .filter(p -> id == (p.getProduct().getId()))
+                .findAny()
+                .orElse(null);
+        System.out.println(cartList.stream()
+                .filter(p -> id == (p.getProduct().getId())));
+        cartList.remove(item);
+
+       request.getSession().setAttribute("cartList", cartList);
+        model.addAttribute("cartList", cartList);
+
+        return "redirect:/myCart";
+    }
 }

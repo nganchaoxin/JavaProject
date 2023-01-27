@@ -16,18 +16,7 @@ public class Main {
     static ProductRepository productRepository = context.getBean("productRepository", ProductRepository.class);
 
     public static void main(String[] args) {
-        //productRepository.findAll();
         //createNewProduct();
-
-    }
-
-    public static void createNewProductWithOrders() {
-        OrdersEntity ordersEntity = new OrdersEntity();
-        ordersEntity.setCustomerName("Ngan Pham");
-        ordersEntity.setOrderDate(LocalDate.now());
-        ordersEntity.setCustomerAddress("London");
-
-        ProductEntity productEntity = createNewProduct();
 
     }
     public static ProductEntity createNewProduct() {

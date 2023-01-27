@@ -18,7 +18,7 @@
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light text-center">
-  <a class="navbar-brand" href="book">Products to buy</a>
+  <a class="navbar-brand" href="./">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -26,16 +26,9 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="./myCart">My Cart</span></a>
       </li>
     </ul>
-    <form:form action="search" method="get" class="form-inline my-2 my-lg-0" >
-      <input name="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form:form>
   </div>
 </nav>
 
@@ -59,7 +52,6 @@
               <td>${product.productDescription}</td>
               <td>${product.price}</td>
               <td><button onclick="location.href='addToCart/${product.id}'" type="button" class="btn btn-secondary">Add to cart</button></td>
-
         </tr>
     </c:forEach>
 
