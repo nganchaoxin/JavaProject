@@ -135,7 +135,7 @@ public class CartController {
     // Show order detail list
     @RequestMapping(value = "/showOrderDetailsList/{id}", method = RequestMethod.GET)
     public String showOrderDetailsList(Model model, @PathVariable int id) {
-        // find orderId in orderDetail to show order detail
+        // find orderId in orderDetail to show item order list
         List<OrderDetailsEntity> orderDetailsList = new ArrayList<OrderDetailsEntity>();
         OrderDetailsEntity orderDetails = (OrderDetailsEntity) orderDetailsRepository.findByOrderId(id);
 
