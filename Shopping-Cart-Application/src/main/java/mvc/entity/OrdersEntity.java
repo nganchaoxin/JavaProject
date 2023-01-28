@@ -1,11 +1,13 @@
 package mvc.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name="Orders")
+@Table(name = "Orders")
 public class OrdersEntity {
 
     @Id
@@ -13,6 +15,7 @@ public class OrdersEntity {
     @Column(name = "id")
     private int id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "order_date")
     private LocalDate orderDate;
 

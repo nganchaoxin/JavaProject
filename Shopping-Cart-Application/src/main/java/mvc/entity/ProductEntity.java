@@ -16,15 +16,15 @@ public class ProductEntity {
     private String productDescription;
     @Column(name = "price")
     private Double price;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderDetailsEntity> orderDetails;
 
-    public ProductEntity(int id, String name, String productDescription, Double price, List<OrderDetailsEntity> orderDetails) {
+    public ProductEntity(int id, String name, String productDescription, Double price) {
         this.id = id;
         this.name = name;
         this.productDescription = productDescription;
         this.price = price;
-        this.orderDetails = orderDetails;
+
     }
 
     public ProductEntity() {

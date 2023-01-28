@@ -3,29 +3,24 @@ package mvc.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="OrderDetail")
+@Table(name = "OrderDetail")
 public class OrderDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-//    @Column(name = "order_id")
-//    private int orderID;
-//
-//    @Column(name="product_id")
-//    private int productID;
     @Column(name = "product_name")
     private String productName;
 
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name="order_id")
+    @JoinColumn(name = "order_id")
     private OrdersEntity orders;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
     public int getId() {
@@ -35,22 +30,6 @@ public class OrderDetailsEntity {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public int getOrderID() {
-//        return orderID;
-//    }
-//
-//    public void setOrderID(int orderID) {
-//        this.orderID = orderID;
-//    }
-//
-//    public int getProductID() {
-//        return productID;
-//    }
-//
-//    public void setProductID(int productID) {
-//        this.productID = productID;
-//    }
 
     public OrdersEntity getOrders() {
         return orders;
@@ -90,6 +69,8 @@ public class OrderDetailsEntity {
                 "id=" + id +
                 ", productName='" + productName + '\'' +
                 ", quantity=" + quantity +
+                ", orders=" + orders +
+                ", product=" + product +
                 '}';
     }
 }

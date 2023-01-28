@@ -30,48 +30,34 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="./myCart">My Cart</a>
+            <a class="nav-link" href="#">My Cart</a>
           </li>
-          <li class="nav-item active">
-             <a class="nav-link" href="./showOrdersList">My orders list</a>
-           </li>
         </ul>
       </div>
-</nav>
-
+    </nav>
     <div class="container">
-      <table class="table">
-        <c:if test="${not empty productList}">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Unit Price</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <c:forEach var="product" items="${productList}" varStatus="index">
-              <tr>
-                <th scope="row">${product.id}</th>
-                <td>${product.name}</td>
-                <td>${product.productDescription}</td>
-                <td>${product.price}</td>
-                <td>
-                  <button
-                    onclick="location.href='addToCart/${product.id}'"
-                    type="button"
-                    class="btn btn-secondary"
-                  >
-                    Add to cart
-                  </button>
-                </td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </c:if>
-      </table>
+      <h3>Please fill information</h3>
+      <br />
+      <form:form method="POST" modelAttribute="orders" action="resultOrders">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Customer Name (*)</label>
+          <form:input type="text" path="customerName" class="form-control col-md-6" />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Customer Address (*)</label>
+          <form:input type="text" path="customerAddress" class="form-control col-md-6" required="true" />
+        </div>
+        <div class="form-group visually-hidden" >
+          <label for="exampleInputEmail1">Order Date</label>
+          <form:input type="text" path="orderDate" class="form-control col-md-6" required="true" />
+        </div>
+        <br/>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary col-md-2">
+            Continue
+          </button>
+        </div>
+      </form:form>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

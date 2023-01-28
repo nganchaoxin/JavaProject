@@ -30,65 +30,42 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">My Cart</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="./showOrdersList">My orders list</a>
-          </li>
+              <a class="nav-link" href="../myCart">My cart</a>
+            </li>
+           <li class="nav-item active">
+             <a class="nav-link" href="../showOrdersList">My orders list</a>
+           </li>
         </ul>
       </div>
     </nav>
+
     <div class="container">
-      <h3>My Shopping Cart</h3>
-      <br />
       <table class="table">
-        <c:if test="${empty cartList}">
-          <p>No item in Cart</p>
-        </c:if>
-        <c:if test="${not empty cartList}">
+      <c:if test="${empty orderDetailsList}">
+        <p>No orders in list</p>
+      </c:if>
+        <c:if test="${not empty orderDetailsList}">
+        <h1>My order detail list</h1>
           <thead>
             <tr>
-              <th scope="col">Id</th>
               <th scope="col">Name</th>
               <th scope="col">Description</th>
-              <th scope="col">Unit Price</th>
+              <th scope="col">Price</th>
               <th scope="col">Quantity</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <c:forEach var="cart" items="${cartList}" varStatus="index">
+            <c:forEach var="orderDetails" items="${orderDetailsList}" varStatus="index">
               <tr>
-                <th scope="row">${cart.product.id}</th>
-                <td>${cart.product.name}</td>
-                <td>${cart.product.productDescription}</td>
-                <td>${cart.product.price}</td>
-                <td>${cart.quantity}</td>
-                <td>
-                  <button
-                    onclick="location.href='removeItem/${cart.product.id}'"
-                    type="button"
-                    class="btn btn-secondary"
-                  >
-                    Remove from cart
-                  </button>
-                </td>
+                <th scope="row">${orderDetails.productName}</th>
+                <td>${orderDetails.product.productDescription}</td>
+                <td>${orderDetails.product.price}</td>
+                <td>${orderDetails.quantity}</td>
               </tr>
             </c:forEach>
           </tbody>
         </c:if>
       </table>
-
-      <div class="row justify-content-center">
-        <button
-          onclick="location.href='./checkOut'"
-          type="button"
-          class="btn btn-primary"
-        >
-          Check out
-        </button>
-      </div>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
