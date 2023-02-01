@@ -97,14 +97,22 @@ public class CartController {
 
         // save cart into orderDetail
         List<CartEntity> cartList = (List<CartEntity>) session.getAttribute("cartList");
+
         OrderDetailsEntity orderDetails = new OrderDetailsEntity();
+        List<OrderDetailsEntity> orderDetailsList = new ArrayList<OrderDetailsEntity>();
+
         for (int i = 0; i < cartList.size(); i++) {
             orderDetails.setProduct(cartList.get(i).getProduct());
             orderDetails.setQuantity(cartList.get(i).getQuantity());
             orderDetails.setProductName(cartList.get(i).getProduct().getName());
+            orderDetailsList.add(orderDetails);
+            request.getSession().setAttribute("orderDetailsList", orderDetailsList);
         }
 
-        request.getSession().setAttribute("orderDetails", orderDetails);
+        for (OrderDetailsEntity orderDetail : orderDetailsList) {
+            System.out.println(orderDetail.toString());
+        }
+
         model.addAttribute("orders", orders);
         return "shoppingcart/checkOut";
     }
@@ -112,20 +120,22 @@ public class CartController {
     // Init result of check out page
     @RequestMapping(value = "/resultOrders", method = RequestMethod.POST)
     public String processOrders(Model model, @ModelAttribute OrdersEntity orders, HttpServletRequest request, HttpSession session) {
-        OrderDetailsEntity orderDetails = (OrderDetailsEntity) session.getAttribute("orderDetails");
+        List<OrderDetailsEntity> orderDetailsList = (List<OrderDetailsEntity>) session.getAttribute("orderDetailsList");
 
+        // save orders and set orders into orderDetailList(in session)
         ordersRepository.save(orders);
-        orderDetails.setOrders(orders);
-
-        List<OrderDetailsEntity> orderDetailsList = Collections.singletonList(orderDetailsRepository.save(orderDetails));
-        request.getSession().setAttribute("orderDetailsList", orderDetailsList);
+        for (int i = 0; i < orderDetailsList.size(); i++) {
+            orderDetailsList.get(i).setOrders(orders);
+        }
+        // save all orderDetailList into table
+        request.getSession().setAttribute("orderDetailsList", orderDetailsRepository.saveAll(orderDetailsList));
 
         return "redirect:/showOrdersList";
     }
 
     // Show orders list
     @RequestMapping(value = "/showOrdersList", method = RequestMethod.GET)
-    public String showOrdersList(Model model, @ModelAttribute OrdersEntity orders, HttpServletRequest request, HttpSession session) {
+    public String showOrdersList(Model model) {
         List<OrdersEntity> ordersList = (List<OrdersEntity>) ordersRepository.findAll();
 
         model.addAttribute("ordersList", ordersList);
@@ -136,12 +146,8 @@ public class CartController {
     @RequestMapping(value = "/showOrderDetailsList/{id}", method = RequestMethod.GET)
     public String showOrderDetailsList(Model model, @PathVariable int id) {
         // find orderId in orderDetail to show item order list
-        List<OrderDetailsEntity> orderDetailsList = new ArrayList<OrderDetailsEntity>();
-        OrderDetailsEntity orderDetails = (OrderDetailsEntity) orderDetailsRepository.findByOrderId(id);
+        model.addAttribute("orderDetailsList", orderDetailsRepository.findAllOrderDetailsByOrderId(id));
 
-        orderDetailsList.add(orderDetails);
-
-        model.addAttribute("orderDetailsList", orderDetailsList);
         return "shoppingcart/orderDetailsList";
     }
 
