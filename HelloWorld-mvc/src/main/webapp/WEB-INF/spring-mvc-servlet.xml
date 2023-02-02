@@ -23,5 +23,5 @@
     </bean>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
-
+    <context:annotation-config/>
 </beans>

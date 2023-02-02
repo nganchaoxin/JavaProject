@@ -82,4 +82,7 @@ public class BookDetailsEntity {
     public void setBook(BookEntity book) {
         this.book = book;
     }
+
+    public void setPublicDate(LocalDate now) {
+    }
 }

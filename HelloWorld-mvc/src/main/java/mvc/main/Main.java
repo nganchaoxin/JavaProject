@@ -11,7 +11,6 @@ import mvc.repository.book.BookRepository;
 import mvc.repository.book.CategoryRepository;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class Main {
     static ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
@@ -20,9 +19,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        bookRepository.findAll();
-        //createNewBookEntryWithNewCategory();
-        //createNewBookEntry();
+        //bookRepository.findAll();
+        createNewBookEntryWithNewCategory();
+        createNewBookEntry();
         //createNewCategory();
         //createNewBook();
         //updateById(2);
@@ -43,43 +42,43 @@ public class Main {
 //        System.out.println(bookEntity.toString());
 //    }
 //
-//    public static void createNewBookEntryWithNewCategory() {
-//        CategoryEntity categoryEntity = new CategoryEntity();
-//        categoryRepository.save(categoryEntity);
+    public static void createNewBookEntryWithNewCategory() {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryRepository.save(categoryEntity);
+
+        BookEntity bookEntity = createNewBook();
+        bookEntity.setCategory(categoryEntity);
+        bookRepository.save(bookEntity);
+    }
+
+    public static void createNewBookEntry() {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(1);
+
+        BookEntity bookEntity = createNewBook();
+        bookEntity.setCategory(categoryEntity);
+
+        bookRepository.save(bookEntity);
+    }
 //
-//        BookEntity bookEntity = createNewBook();
-//        bookEntity.setCategory(categoryEntity);
-//        bookRepository.save(bookEntity);
-//    }
-//
-//    public static void createNewBookEntry() {
-//        CategoryEntity categoryEntity = new CategoryEntity();
-//        categoryEntity.setId(1);
-//
-//        BookEntity bookEntity = createNewBook();
-//        bookEntity.setCategory(categoryEntity);
-//
-//        bookRepository.save(bookEntity);
-//    }
-//
-//    public static BookEntity createNewBook() {
-//        BookDetailsEntity bookDetailsEntity = new BookDetailsEntity();
-//        bookDetailsEntity.setIsbn("ISIBF1219323");
-//        bookDetailsEntity.setNumberOfPage(23);
-//        bookDetailsEntity.setPrice(65);
-//        bookDetailsEntity.setPublicDate(LocalDate.now());
-//
-//        BookEntity bookEntity = new BookEntity();
-//        bookEntity.setName("Java A-Z");
-//        bookEntity.setAuthor("Roger");
-//
-//        // Set BoolDetail into Book
-//        bookEntity.setBookDetails(bookDetailsEntity);
-//        // Set Book into BookDetail
-//        bookDetailsEntity.setBook(bookEntity);
-//
-//        return bookEntity;
-//    }
+    public static BookEntity createNewBook() {
+        BookDetailsEntity bookDetailsEntity = new BookDetailsEntity();
+        bookDetailsEntity.setIsbn("ISIBF1219323");
+        bookDetailsEntity.setNumberOfPage(23);
+        bookDetailsEntity.setPrice(65);
+        bookDetailsEntity.setPublicDate(LocalDate.now());
+
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.setName("Java A-Z");
+        bookEntity.setAuthor("Roger");
+
+        // Set BoolDetail into Book
+        bookEntity.setBookDetails(bookDetailsEntity);
+        // Set Book into BookDetail
+        bookDetailsEntity.setBook(bookEntity);
+
+        return bookEntity;
+    }
 //
 //    private static CategoryEntity createNewCategory() {
 //        CategoryEntity categoryEntity = new CategoryEntity();

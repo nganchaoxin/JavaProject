@@ -20,7 +20,7 @@ import java.util.Map;
 
 
 
-@Controller
+@RestController
 
 public class BookController {
 
@@ -32,11 +32,10 @@ public class BookController {
     CategoryRepository categoryRepository;
 
     @RequestMapping(value = "/book", method = RequestMethod.GET)
-    public String showBook(Model model) {
-        List<BookEntity> bookList = (List<BookEntity>) bookRepository.findAll();
-        model.addAttribute("bookList", bookList);
+    public Object showBook() {
 
-        return "book/bookManagement";
+        return bookRepository.findAll();
+        //return "book/bookManagement";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

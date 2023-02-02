@@ -97,21 +97,18 @@ public class CartController {
 
         // save cart into orderDetail
         List<CartEntity> cartList = (List<CartEntity>) session.getAttribute("cartList");
-
-        OrderDetailsEntity orderDetails = new OrderDetailsEntity();
-        List<OrderDetailsEntity> orderDetailsList = new ArrayList<OrderDetailsEntity>();
+        List<OrderDetailsEntity> orderDetailsList = new ArrayList<>();
 
         for (int i = 0; i < cartList.size(); i++) {
+            OrderDetailsEntity orderDetails = new OrderDetailsEntity();
             orderDetails.setProduct(cartList.get(i).getProduct());
             orderDetails.setQuantity(cartList.get(i).getQuantity());
             orderDetails.setProductName(cartList.get(i).getProduct().getName());
             orderDetailsList.add(orderDetails);
-            request.getSession().setAttribute("orderDetailsList", orderDetailsList);
+
         }
 
-        for (OrderDetailsEntity orderDetail : orderDetailsList) {
-            System.out.println(orderDetail.toString());
-        }
+        request.getSession().setAttribute("orderDetailsList", orderDetailsList);
 
         model.addAttribute("orders", orders);
         return "shoppingcart/checkOut";
