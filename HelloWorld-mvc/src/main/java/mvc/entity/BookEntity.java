@@ -1,6 +1,7 @@
 package mvc.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "book")
@@ -9,8 +10,12 @@ public class BookEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @NotBlank(message = "Please insert Name")
     @Column(name = "name")
     private String name;
+
+    @NotBlank(message = "Please insert Author")
     @Column(name = "author")
     private String author;
     @ManyToOne

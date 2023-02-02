@@ -7,11 +7,8 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <link rel="stylesheet" href="
-    <c:url value="/resources/bootstrap/css/bootstrap.css" />
-    "> <link rel="stylesheet" href="
-    <c:url value="/resources/bootstrap/js/bootstrap.min.js" />
-    ">
+    <link rel="stylesheet" href="<c:url value="/resources/bootstrap/css/bootstrap.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />">
     <title>Book Management</title>
   </head>
 
@@ -20,7 +17,7 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       <a class="navbar-brand" href="book">Book Management</a>
     </nav>
     <div class="container">
-      <h1 align="center">Add a new book</h1>
+      <h1 align="center">Edit Book</h1>
       <form:form action="${action}" modelAttribute="book" method="post">
         <legend class="scheduler-border"><c:out value="${msg}" /></legend>
         <c:if test="${type.equals('update')}">
@@ -46,45 +43,51 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
-            required="true"
             placeholder="Name"
           />
+          <small style="color: red">
+            <form:errors path="name" class="text-error" />
+          </small>
         </div>
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label"
-            >Author(*)</label
-          >
+          <label for="exampleInputPassword1" class="form-label">Author(*)</label>
           <form:input
             path="author"
             type="text"
-            required="true"
             placeholder="Author"
             class="form-control"
             id="exampleInputPassword1"
           />
+          <small style="color: red">
+            <form:errors path="author" class="text-error" />
+          </small>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">ISBN(*)</label>
           <form:input
             path="bookDetails.isbn"
             type="text"
-            required="true"
             placeholder="ISBN"
             class="form-control"
             id="exampleInputPassword1"
           />
+          <small style="color: red">
+            <form:errors path="bookDetails.isbn" class="text-error" />
+          </small>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Price(*)</label>
           <form:input
             path="bookDetails.price"
             type="number"
-            required="true"
             placeholder="Price"
             min="1"
             class="form-control"
             id="exampleInputPassword1"
           />
+          <small style="color: red">
+            <form:errors path="bookDetails.price" class="text-error" />
+          </small>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label"
@@ -93,19 +96,27 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <form:input
             path="bookDetails.publishDate"
             type="date"
-            required="true"
             placeholder="Publish Date"
             class="form-control"
             id="exampleInputPassword1"
           />
+          <small style="color: red">
+            <form:errors path="bookDetails.publishDate" class="text-error" />
+          </small>
         </div>
+        <label for="exampleInputPassword1" class="form-label">Category(*)</label>
         <form:select path="category.id" class="form-control">
           <form:option value="0" label="---Select---" />
           <form:options items="${categoryList}" />
         </form:select>
+        <small style="color: red">
+          <c:out value="${message}" />
+        </small>
+        <br />
 
         <button type="submit" class="btn btn-primary">Save</button>
       </form:form>
     </div>
   </body>
+
 </html>

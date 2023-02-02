@@ -8,19 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
-
-@RestController
+@Controller
 
 public class BookController {
 
@@ -32,10 +30,11 @@ public class BookController {
     CategoryRepository categoryRepository;
 
     @RequestMapping(value = "/book", method = RequestMethod.GET)
-    public Object showBook() {
-
-        return bookRepository.findAll();
-        //return "book/bookManagement";
+    public Object showBook(Model model) {
+        List<BookEntity> bookList = (List<BookEntity>) bookRepository.findAll();
+        model.addAttribute("bookList", bookList);
+        //return bookRepository.findAll();
+        return "book/bookManagement";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -65,9 +64,18 @@ public class BookController {
     }
 
     @RequestMapping(value = "/newBook", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-    public String saveBook(BookEntity book) {
-        bookRepository.save(book);
+    public String saveBook(@Valid @ModelAttribute("book") BookEntity book, BindingResult result, Model model) {
+        if (result.hasErrors() || book.getCategory().getId() == 0) {
+            model.addAttribute("type", "update");
+            setCategoryDropDownList(model);
+            if (book.getCategory().getId() == 0) {
+                model.addAttribute("type", "update");
+                model.addAttribute("message", "Plz input category");
+            }
+            return "book/newBook";
+        }
 
+        bookRepository.save(book);
         return "redirect:/book";
     }
 
@@ -79,20 +87,35 @@ public class BookController {
         model.addAttribute("type", "update");
         // at the action do "updateBook" with "/updateBook" direction
         model.addAttribute("action", "updateBook");
-
         setCategoryDropDownList(model);
-        return "book/newBook";
+
+        if (bookRepository.findById(id).isPresent()) {
+            return "book/newBook";
+        } else {
+            model.addAttribute("id", id);
+        }
+        return "book/notFound";
     }
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String updateBook(@ModelAttribute BookEntity book) {
-        bookRepository.save(book);
+    @RequestMapping(value = "/edit/updateBook", method = RequestMethod.POST)
+    public String updateBook(@Valid @ModelAttribute("book") BookEntity book, @PathVariable int id, BindingResult result, Model model) {
 
+        if (result.hasErrors() || book.getCategory().getId() == 0) {
+            model.addAttribute("type", "update");
+            setCategoryDropDownList(model);
+            if (book.getCategory().getId() == 0) {
+                model.addAttribute("type", "update");
+                model.addAttribute("message", "Plz input category");
+            }
+            return "book/newBook";
+        }
+
+        bookRepository.save(book);
         return "redirect:/book";
     }
 
-    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
-    public String deleteBook(@PathVariable int id){
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable int id) {
         bookRepository.deleteById(id);
         return "redirect:/book";
     }
