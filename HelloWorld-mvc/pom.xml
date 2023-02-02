@@ -14,6 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>5.2.10.RELEASE</spring.version>
         <jackson.library>2.14.1</jackson.library>
+        <fileupload.library>1.3.3</fileupload.library>
     </properties>
 
     <dependencies>
@@ -102,6 +103,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson.library}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${fileupload.library}</version>
         </dependency>
 
 

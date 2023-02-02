@@ -21,7 +21,11 @@
             <value>.jsp</value>
         </property>
     </bean>
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
     <context:annotation-config/>
+    <mvc:resources mapping="/webapp/resources/**" location="/webapp/resources/" />
 </beans>
