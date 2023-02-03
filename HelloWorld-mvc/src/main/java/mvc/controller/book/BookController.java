@@ -25,7 +25,6 @@ public class BookController {
     @Autowired
     BookRepository bookRepository;
 
-
     @Autowired
     CategoryRepository categoryRepository;
 
