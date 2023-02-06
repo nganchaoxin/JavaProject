@@ -20,7 +20,7 @@ public class BookController {
     BookRepositoryImpl bookRepositoryImpl;
 
     // GET show all books
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/book", method = RequestMethod.GET)
     public Object showAllBook(Model model) {
         List<BookEntity> bookList = (List<BookEntity>) bookRepository.findAll();
         model.addAttribute("bookList", bookList);
@@ -49,7 +49,7 @@ public class BookController {
     }
 
     // DELETE delete books by id
-    @RequestMapping(value = "/{bookID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/book/{bookID}", method = RequestMethod.DELETE)
     public Object deleteBook(@PathVariable(value = "bookID") String bookID) {
         Boolean result = bookRepositoryImpl.delete(Integer.valueOf(bookID));
 
@@ -68,7 +68,7 @@ public class BookController {
     }
 
     // GET search books
-    @RequestMapping(value = "/search/{searchInput}", method = RequestMethod.GET)
+    @RequestMapping(value = "/book/search/{searchInput}", method = RequestMethod.GET)
     public List<BookEntity> search(@PathVariable(value = "searchInput") String searchInput, Model model) {
         List<BookEntity> resultList;
         resultList = bookRepository.findByNameContainingOrAuthorContaining(searchInput, searchInput);
