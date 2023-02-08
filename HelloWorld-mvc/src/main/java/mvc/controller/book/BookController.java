@@ -4,6 +4,7 @@ import mvc.entity.BookEntity;
 import mvc.entity.CategoryEntity;
 import mvc.repository.book.BookRepository;
 import mvc.repository.book.CategoryRepository;
+import mvc.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ import java.util.*;
 public class BookController {
 
     @Autowired
+    BookService bookService;
+
+    @Autowired
     BookRepository bookRepository;
 
     @Autowired
@@ -30,7 +34,7 @@ public class BookController {
 
     @RequestMapping(value = "/book", method = RequestMethod.GET)
     public Object showBook(Model model) {
-        List<BookEntity> bookList = (List<BookEntity>) bookRepository.findAll();
+        List<BookEntity> bookList =  bookService.findAll();
         model.addAttribute("bookList", bookList);
         //return bookRepository.findAll();
         return "book/bookManagement";
@@ -41,10 +45,10 @@ public class BookController {
                          Model model) {
         List<BookEntity> resultList;
         if (searchInput.isEmpty()) {
-            resultList = (List<BookEntity>) bookRepository.findAll();
+            resultList = (List<BookEntity>) bookService.findAll();
 
         } else {
-            resultList = bookRepository.findByNameContainingOrAuthorContaining(searchInput, searchInput);
+            resultList = bookService.findByNameContainingOrAuthorContaining(searchInput, searchInput);
         }
 
         model.addAttribute("bookList", resultList);
@@ -74,7 +78,7 @@ public class BookController {
             return "book/newBook";
         }
 
-        bookRepository.save(book);
+        bookService.save(book);
         return "redirect:/book";
     }
 

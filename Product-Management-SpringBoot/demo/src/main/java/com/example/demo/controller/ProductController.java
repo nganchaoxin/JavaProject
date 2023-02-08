@@ -40,8 +40,9 @@ public class ProductController {
         } else {
             searchList = productService.getProductsByName(searchInput,pageable);
         }
+        model.addAttribute("products", searchList.getContent());
 
-        model.addAttribute("products", searchList);
+        model.addAttribute("searchList", searchList);
         model.addAttribute("searchInput", searchInput);
 
         return "product";

@@ -16,13 +16,10 @@
 <link rel="stylesheet" href="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>">
 <title>Product Management</title>
 </head>
-<%-- url de truyen page vao param--%>
-<spring:url value="./" var="productsUrl" />
-<%-- so luong san pham moi trang --%>
-<c:set var="currentPage" value="${products.number}" />
-<%-- lay so luong san pham moi trang tinh tong so trang --%>
-<c:set var="totalPages" value="${products.totalPages}" />
-<c:set var="products" value="${products.content}" />
+
+<c:set var="totalPages" value="${searchList.totalPages}"/>
+<c:set var="currentPage" value="${searchList.number}"/>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light text-center">
@@ -67,7 +64,7 @@
           <th scope="col">Price</th>
           <th scope="col">Create Date</th>
             <th scope="col"></th>
-            <th scope="col">Create Date</th>
+            <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -146,16 +143,13 @@
           <spring:url value="./search?searchInput=${searchInput}" var="productsUrl" />
           <nav aria-label="Page navigation">
               <ul class="pagination">
-                <%-- start --%>
                   <li class="page-item ${currentPage == 0 ? 'disabled' : ''}">
                       <spring:url value="${productsUrl}" var="previousPageUrl">
                           <spring:param name="page" value="${currentPage - 1}" />
                       </spring:url>
                       <a class="page-link" href="${previousPageUrl}" tabindex="-1">
-                          <<
-                      </a>
-                  </li
-                    <%-- i = 0 -> totalPages = 3 - 1 = 2 page tren param pages= 0,1,2 --%>
+                          <<</a>
+                  </li>
                   <c:forEach var="i" begin="0" end="${totalPages - 1}">
                       <spring:url value="${productsUrl}" var="pageUrl">
                           <spring:param name="page" value="${i}" />
@@ -164,14 +158,11 @@
                           <a class="page-link" href="${pageUrl}">${i + 1}</a>
                       </li>
                   </c:forEach>
-                   <%-- end --%>
                   <li class="page-item ${currentPage == totalPages - 1 ? 'disabled' : ''}">
                       <spring:url value="${productsUrl}" var="nextPageUrl">
                           <spring:param name="page" value="${currentPage + 1}" />
                       </spring:url>
-                      <a class="page-link" href="${nextPageUrl}">
-                            >>
-                      </a>
+                      <a class="page-link" href="${nextPageUrl}">>></a>
                   </li>
               </ul>
           </nav>
