@@ -12,11 +12,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableConfigurationProperties
 @EntityScan("com.example.demo.entities")
-@ComponentScan(basePackages = { "com.example.demo"} )
+//@EnableConfigurationProperties
+//@ComponentScan(basePackages = { "com.example.demo"} )
 public class DemoApplication extends SpringBootServletInitializer {
-
+	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(DemoApplication.class);
 	}
