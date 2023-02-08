@@ -30,6 +30,17 @@ public class ProductEntity implements Serializable {
     @DateTimeFormat(pattern="dd/MM/yyyy")
     private Date createAt;
 
+    public ProductEntity() {
+    }
+
+    public ProductEntity(int id, String name, double price, String description, Date createAt) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.createAt = createAt;
+    }
+
     public int getId() {
         return id;
     }
