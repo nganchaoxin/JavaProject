@@ -32,6 +32,7 @@ public class BookController {
     @Autowired
     CategoryRepository categoryRepository;
 
+    // Show All Book
     @RequestMapping(value = "/book", method = RequestMethod.GET)
     public Object showBook(Model model) {
         List<BookEntity> bookList =  bookService.findAll();
@@ -40,6 +41,7 @@ public class BookController {
         return "book/bookManagement";
     }
 
+    // Search
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("searchInput") String searchInput,
                          Model model) {
@@ -56,6 +58,7 @@ public class BookController {
         return "book/bookManagement";
     }
 
+    //Create
     @RequestMapping(value = "/newBook", method = RequestMethod.GET)
     public String newBook(Model model) {
         model.addAttribute("book", new BookEntity());
@@ -66,6 +69,7 @@ public class BookController {
         return "book/newBook";
     }
 
+    // Create
     @RequestMapping(value = "/newBook", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     public String saveBook(@Valid @ModelAttribute("book") BookEntity book, BindingResult result, Model model) {
         if (result.hasErrors() || book.getCategory().getId() == 0) {
@@ -82,9 +86,10 @@ public class BookController {
         return "redirect:/book";
     }
 
+    // Edit
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String showEditBook(Model model, @PathVariable int id) {
-        model.addAttribute("book", bookRepository.findById(id));
+        model.addAttribute("book", bookService.findById(id));
         model.addAttribute("msg", "Update book information");
         // if the type === update show the id book
         model.addAttribute("type", "update");
@@ -92,7 +97,7 @@ public class BookController {
         model.addAttribute("action", "updateBook");
         setCategoryDropDownList(model);
 
-        if (bookRepository.findById(id).isPresent()) {
+        if (bookService.findById(id) != null) {
             return "book/newBook";
         } else {
             model.addAttribute("id", id);
@@ -100,8 +105,9 @@ public class BookController {
         return "book/notFound";
     }
 
+    // Update
     @RequestMapping(value = "/edit/updateBook", method = RequestMethod.POST)
-    public String updateBook(@Valid @ModelAttribute("book") BookEntity book, @PathVariable int id, BindingResult result, Model model) {
+    public String updateBook(@Valid @ModelAttribute("book") BookEntity book, BindingResult result, Model model) {
 
         if (result.hasErrors() || book.getCategory().getId() == 0) {
             model.addAttribute("type", "update");
@@ -113,13 +119,14 @@ public class BookController {
             return "book/newBook";
         }
 
-        bookRepository.save(book);
+        bookService.save(book);
         return "redirect:/book";
     }
 
+    // Delete
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable int id) {
-        bookRepository.deleteById(id);
+        bookService.deleteById(id);
         return "redirect:/book";
     }
 

@@ -14,8 +14,7 @@
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light text-center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light text-center px-4">
   <a class="navbar-brand" href="book">Book Management</a>
   <button
     class="navbar-toggler"
@@ -32,28 +31,30 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <a href="newBook"
-        ><button type="button" class="btn btn-primary btn-sm">
+        ><button type="button" class="btn btn-primary mx-4">
           Add Book
         </button></a
       >
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
     </ul>
     <form:form action="search" method="get" class="form-inline my-2 my-lg-0">
-      <input
-        name="searchInput"
-        class="form-control mr-sm-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-        Search
-      </button>
+       <div class="row">
+            <div class="col ">
+                <input
+                    name="searchInput"
+                    class="form-control mr-sm-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
+            </div>
+            <div class="col px-0 mx-0">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                    Search
+                  </button>
+            </div>
+
+       </div>
+
     </form:form>
   </div>
 </nav>
